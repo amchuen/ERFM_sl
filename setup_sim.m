@@ -4,7 +4,7 @@ close all;
 
 %% Add paths for modules
 
-addpath('MOT');
+load_folders;
 
 %% Load Module Parameters
 
