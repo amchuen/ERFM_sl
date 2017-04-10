@@ -17,21 +17,21 @@ switch instruct
         
         % PROPELLANT PROPERTIES - PBAN APCP
         MOT.PROP_MASS_INIT = 3.908796; % lbm
-        MOT.RHO_PROP = 0.064; % lb/in^3 
-        MOT.PROP_RAD_INIT = 0.25; % inch, initial bore radius
+        MOT.RHO_PROP = 0.064*(12^3); % lb/in^3 -> lb/ft^3 
+        MOT.PROP_RAD_INIT = 0.25/12; % inch->ft, initial bore radius
         MOT.FLAME_TEMP = 5800; % FAHRENHEIT
-        MOT.BURN_RATE = 0.55; %IN/S
-        MOT.PROP_LENGTH = 18.0; %IN
-        MOT.PROP_CASE_DISP = 1.40; % IN
+        MOT.BURN_RATE = 0.55/12; %IN/S -> ft/s
+        MOT.PROP_LENGTH = 18.0/12; %IN-> ft
+        MOT.PROP_CASE_DISP = 1.40/12; % IN -> ft
         
         % CASE DATA
-        MOT.CASE_LENGTH = 20.9055; %in
-        MOT.CASE_DIAM = 2.95276; % in
+        MOT.CASE_LENGTH = 20.9055/12; %in -> ft
+        MOT.CASE_DIAM = 2.95276/12; % in -> ft
         MOT.CASE_MASS = 4.071938; % lbm
-        MOT.CASE_CG = 8.9046; % IN
-        MOT.THROAT_AREA = 0.5^2 * pi ; % in^2
-        MOT.EXHAUST_AREA = (2.75*0.5)^2 * pi; % IN^2
-        MOT.CASE_LEAD_EDGE = 88.54744; %IN
+        MOT.CASE_CG = 8.9046/12; % IN -> ft
+        MOT.THROAT_AREA = (0.5/12)^2 * pi ; % in^2 -> ft^2
+        MOT.EXHAUST_AREA = (2.75*0.5/12)^2 * pi; % IN^2 -> ft^2
+        MOT.CASE_LEAD_EDGE = 88.54744/12; %IN -> ft
         
         % Thrust Properties
         MOT.TOTAL_IMPULSE_SI = 3743.3947; % Ns

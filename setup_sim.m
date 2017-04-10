@@ -23,32 +23,72 @@ sim('test_model');
 
 %% Post-Process Results
 
-OUT = load('OUT.mat');
+load('OUT.mat');
+close all
 
 % Plot Position
 figure();
-plot(tout, OUT.ans.EOM.X_E.Data(:,1));
+plot(tout, OUT.EOM.X_E.Data(:,1));
 hold on;
-plot(tout, OUT.ans.EOM.X_E.Data(:,2));
+plot(tout, OUT.EOM.X_E.Data(:,2));
 hold on;
-plot(tout, OUT.ans.EOM.X_E.Data(:,3));
+plot(tout, -1.*OUT.EOM.X_E.Data(:,3));
 
 legend('X_E', 'Y_E', 'Z_E');
 
 % Plot Velocities
 figure();
-plot(tout, OUT.ans.EOM.V_E.Data(:,1));
+plot(tout, OUT.EOM.V_E.Data(:,1));
 hold on;
-plot(tout, OUT.ans.EOM.V_E.Data(:,2));
+plot(tout, OUT.EOM.V_E.Data(:,2));
 hold on;
-plot(tout, OUT.ans.EOM.V_E.Data(:,3));
+plot(tout, OUT.EOM.V_E.Data(:,3));
 
 legend('VE_x', 'VE_y', 'VE_z');
 
+% Plot Velocities - WInd Axis
+figure();
+plot(tout, OUT.EOM.V_W.Data(:,1));
+hold on;
+plot(tout, OUT.EOM.V_W.Data(:,2));
+hold on;
+plot(tout, OUT.EOM.V_W.Data(:,3), '+');
+
+legend('VW_x', 'VW_y', 'VW_z');
+
+% Plot Angles of Attack
+figure();
+plot(tout, OUT.EOM.STAB_ANGLES.Data(:,1));
+hold on;
+plot(tout, OUT.EOM.STAB_ANGLES.Data(:,2));
+legend('\alpha', '\beta');
+
 % Plot Masses
 figure();
-plot(OUT.ans.MASS.MASS.Time, OUT.ans.MASS.MASS.Data);
+plot(tout, OUT.MASS.MASS_VEC.Data(:,1));
+hold on;
+plot(tout, OUT.MASS.MASS_VEC.Data(:,2));
+hold on;
+plot(tout, OUT.MASS.MASS_VEC.Data(:,3));
+legend('m_{x,w}', 'm_{y,w}', 'm_{z,w}');
+title('Mass Time History');
 
 % Plots Thrust
 figure();
-plot(OUT.ans.MOT.Thrust.Time, OUT.ans.MOT.Thrust.Data);
+plot(tout, OUT.MOT.THR_VEC.Data(:,1));
+hold on;
+plot(tout, OUT.MOT.THR_VEC.Data(:,2));
+hold on;
+plot(tout, OUT.MOT.THR_VEC.Data(:,3));
+title('Thrust Profile');
+legend('T_{x,w}', 'T_{y,w}', 'T_{z,w}');
+
+% Plot Thrust Vectors
+figure();
+plot(OUT.MOT.THR_MOM_VEC.Time, OUT.MOT.THR_MOM_VEC.Data(:,1));
+hold on;
+plot(OUT.MOT.THR_MOM_VEC.Time, OUT.MOT.THR_MOM_VEC.Data(:,2));
+hold on;
+plot(OUT.MOT.THR_MOM_VEC.Time, OUT.MOT.THR_MOM_VEC.Data(:,3));
+legend('T_{x,w}', 'T_{y,w}', 'T_{z,w}');
+title('Thrust Moment');
