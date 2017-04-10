@@ -10,6 +10,8 @@ load_folders;
 
 MOT = setup_mot('create');
 MOT = setup_mot('update', MOT);
+AERO = setup_aero('create');
+% AERO = setup_aero('update', AERO);
 
 %% Set Simulation Parameters
 

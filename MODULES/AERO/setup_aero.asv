@@ -17,7 +17,7 @@ switch instruct
     case 'create'
         AERO = {};
         
-%% Nosecone properties
+        %% Nosecone properties
         % GENERAL
         AERO.NC.X_LE = 0;
         AERO.NC.SHAPE = 'OGIVE';
@@ -42,7 +42,7 @@ switch instruct
         AERO.AF(1).X_LE = 24; 
         AERO.AF(1).X_TE = AERO.AF(1).X_LE+ AERO.AF(1).LENGTH;
         
-%% AIRFRAME 2 - MOTOR FRAME
+        %% AIRFRAME 2 - MOTOR FRAME
         % General
         AERO.AF(2).LENGTH = 48; % IN
         AERO.AF(2).OUTER_DIAM = 6.155; % IN
@@ -52,8 +52,8 @@ switch instruct
         AERO.AF(2).X_LE = AERO.AF(1).X_TE; 
         AERO.AF(2).X_TE = AERO.AF(1).X_LE+ AERO.AF(1).LENGTH;
 
-%% FIN SET
-        % GEOMETRY
+        %% FIN SET
+        % General
         AERO.FIN.BODY_DIAM = 6.15/12;
         AERO.FIN.X_LE = 94/12; % FT
         AERO.FIN.Y_LE = AERO.FIN.BODY_DIAM * 0.5;
@@ -65,29 +65,11 @@ switch instruct
         AERO.FIN.SPAN = 6.5;
         AERO.FIN.SWEEP = 9.625;
         AERO.FIN.S_AREA = 0.5*(AERO.FIN.C_ROOT + AERO.FIN.C_TIP)*AERO.FIN.SPAN;
-        AERO.FIN.MAC = integral(@(x) (((AERO.FIN.C_ROOT - AERO.FIN.C_TIP)/(0 - AERO.FIN.SPAN))*(x)).^2, 0, AERO.FIN.SPAN)/AERO.FIN.S_AREA;
-        AERO.FIN.Y_MAC = AERO.FIN.SPAN/3 * (AERO.FIN.C_ROOT + 2*AERO.FIN.C_TIP)/(AERO.FIN.C_ROOT + AERO.FIN.C_TIP);
         AERO.FIN.THICKNESS = 0.185;
-        AERO.FIN.T_C = AERO.FIN.THICKNESS/AERO.FIN.MAC;
         AERO.FIN.ROUNDED_LEADING_EDGE = 0; % square/rectangular edge chosen
-        AERO.FIN.ROUND_TRAIL_EDGE = 0; % SQUARE/RECTANGULAR EDGE CHOSEN
-        AERO.FIN.TAPER_TRAIL_EDGE = 0; % NO TAPERING OF TRAILING EDGE
         AERO.FIN.ROT_ANGLE = 0.0;
         AERO.FIN.A_REF = (AERO.FIN.BODY_DIAM^2 * 0.25)*pi;
-        AERO.FIN.SWEEP_MC = atan((AERO.FIN.SWEEP + 0.5*(AERO.FIN.C_TIP - AERO.FIN.C_ROOT))/(AERO.FIN.SPAN));
-        AERO.FIN.INCIDENCE_ANGLE = 0.0;
         
-        % AERODYNAMIC PROPERTIES
-        AERO.FIN.X_F_SUBSONIC = (AERO.FIN.SWEEP / 3) * ( AERO.FIN.C_ROOT + 2 * AERO.FIN.C_TIP)/(AERO.FIN.C_ROOT + AERO.FIN.C_TIP) + (1/6)*(AERO.FIN.C_ROOT^2 + AERO.FIN.C_TIP^2 + AERO.FIN.C_ROOT*AERO.FIN.C_TIP)/(AERO.FIN.C_ROOT + AERO.FIN.C_TIP);
-        AERO.FIN.AREA_WET_DOUBLE_TOTAL = AERO.FIN.S_AREA * 2 * AERO.FIN.COUNT;
-        AERO.FIN.R_CRIT = 10e5; 
-        AERO.FIN.OSWALD_EFF = 0.7;
-        AERO.FIN.AR = AERO.FIN.SPAN^2 / AERO.FIN.S_AREA;
-        AERO.FIN.CL0 = 0.0; % NO LIFT AT ZERO-ALPHA
-        FIN_MACH_INTERP;
-        
-        % REPLICATE CALCULATIONS FOR EACH OF THE VARIOUS FINS. IF CUSTOM
-        % FINS DESIRED, MUST ADD VARIABLES INDEPENDENTLY
         for ii = 2:AERO.FIN(1).COUNT
             AERO.FIN(ii) = AERO.FIN(1);
             AERO.FIN(ii).ROT_ANGLE = ii * 2*pi/AERO.FIN(1).COUNT;
@@ -311,7 +293,7 @@ end
     end
 
     function FIN_MACH_INTERP()
-        Mgre2 = @(x) (2*AERO.FIN.SPAN^2 * sqrt(x^2 - 1)/AERO.FIN.S_AREA - 0.67)/(2 * (2 * AERO.FIN.SPAN^2 * sqrt(x^2 - 1))/AERO.FIN.S_AREA - 1);
+        Mgre2 = @(x) (2*AERO.FIN.SPAN^2 * sqrt(x^2 - 1)/AERO.FIN.AREA - 0.67)/(2 * (2 * AERO.FIN.SPAN^2 * sqrt(x^2 - 1))/AERO.FIN.AREA - 1);
         dx = 0.0005;
         deriv = (Mgre2(2+dx) - Mgre2(2-dx))/(2 * dx);
         AERO.FIN.p_arr = [0.25; 0; Mgre2(2); deriv; 0; 0];
